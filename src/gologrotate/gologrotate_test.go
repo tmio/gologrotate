@@ -53,7 +53,7 @@ func TestRun(t *testing.T) {
 
 	fi.WriteString("NEW LINE\n")
 
-	fi.Close()
+	defer fi.Close()
 
 	data := ReadFile(root_log_name)
 	t.Log(fmt.Sprintf("File contents: %q", data))

@@ -75,12 +75,12 @@ func copyTruncate(nameIn, nameOut string) (err error, needPanic bool) {
 			fmt.Print(".")
 		}
 		if err != nil {
-			return err, true
+			return err, false
 		}
 	}
 	err = in.Truncate(0)
 	if err != nil {
-		return fmt.Errorf("Couldn't truncate file: %v", err), true
+		return fmt.Errorf("Couldn't truncate file: %v", err), false
 	}
 	in.Sync()
 	fmt.Println(fmt.Sprintf("Done - %s", nameIn))
@@ -93,6 +93,7 @@ func fileExists(name string) bool {
 }
 
 func run(searchDir string) {
+	fmt.Println(fmt.Sprintf("Starting execution on %s", searchDir))
 	fileList := findFiles(searchDir, ".log")
 	now := time.Now().Format(*format)
 	for _, file := range fileList {
@@ -110,12 +111,25 @@ func run(searchDir string) {
 			}
 		}
 	}
+	fmt.Println(fmt.Sprintf("Done with execution on %s", searchDir))
 }
 
 func main() {
+	fmt.Println("Starting gologrotate")
+	now := flag.Bool("now", false, "Run now")
 	flag.Parse()
-	for _, arg := range flag.Args() {
-		gocron.Every(1).Day().At("01:00").Do(run, arg)
+	if *now {
+		fmt.Println("Running a one-time execution of gologrotate")
+		for _, arg := range flag.Args() {
+			run(arg)
+		}
+	} else {
+		fmt.Println("Running a cron job of gologrotate")
+		for _, arg := range flag.Args() {
+			gocron.Every(1).Day().At("00:00").Do(run, arg)
+		}
+		_, time := gocron.NextRun()
+		fmt.Println(fmt.Sprintf("Cron job will run next at %s", time))
+		<-gocron.Start()
 	}
-	gocron.Start()
 }
