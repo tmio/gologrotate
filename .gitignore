@@ -1,0 +1,7 @@
+bin/
+pkg/
+*.gz
+*.xml
+tmp/
+log/
+.DS_Store
