@@ -4,6 +4,7 @@ import (
 	"compress/gzip"
 	"flag"
 	"fmt"
+	"github.com/jasonlvhit/gocron"
 	"io"
 	"os"
 	"path/filepath"
@@ -115,6 +116,7 @@ func run(searchDir string) {
 func main() {
 	flag.Parse()
 	for _, arg := range flag.Args() {
-		run(arg)
+		gocron.Every(1).Day().At("01:00").Do(run, arg)
 	}
+	gocron.Start()
 }
