@@ -1,1 +1,1 @@
-export GOPATH=`pwd`:`pwd`/vendor
+export GOPATH=`pwd`/vendor:`pwd`
