@@ -20,7 +20,7 @@ imports:
 	go install golang.org/x/tools/cmd/goimports
 
 docker: 
-	docker build -t gologrotate .
+	docker build -t tmio/gologrotate .
 
 run_docker_it:
 	docker run -it -v "`pwd`/src/gologrotate/tests/find_all:/logs" gologrotate
