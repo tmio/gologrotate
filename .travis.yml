@@ -5,4 +5,5 @@ go:
   - tip
 
 script:
- make test
+  . ./gopath.sh
+  make test
