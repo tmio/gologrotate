@@ -1,4 +1,6 @@
 bin/
+vendor/bin
+vendor/pkg
 pkg/
 *.gz
 *.xml
