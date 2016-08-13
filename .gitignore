@@ -8,3 +8,4 @@ tmp/
 log/
 .DS_Store
 src/golang.org
+vendor/src/golang.org
