@@ -11,7 +11,7 @@ test: goimports
 	go test -v gologrotate
 
 goimports: godeps imports
-	./bin/goimports -w src/gologrotate/
+	./vendor/bin/goimports -w src/gologrotate/
 
 godeps:
 	go get golang.org/x/tools/cmd/goimports
