@@ -103,6 +103,7 @@ func run(searchDir string) {
 			n += 1
 			outname = fmt.Sprintf("%s.%s.%d.gz", file, now, n)
 		}
+		fmt.Println(fmt.Sprintf("Truncating %s into %s", file, outname))
 		err, needPanic := copyTruncate(file, outname)
 		if err != nil {
 			fmt.Fprintln(os.Stderr, "error copyTruncate from %s to %s: %v", file, outname, err)
@@ -121,12 +122,14 @@ func main() {
 	if *now {
 		fmt.Println("Running a one-time execution of gologrotate")
 		for _, arg := range flag.Args() {
+			fmt.Println(fmt.Sprintf("Running on %s", arg))
 			run(arg)
 		}
 	} else {
 		fmt.Println("Running a cron job of gologrotate")
 		for _, arg := range flag.Args() {
-			gocron.Every(1).Day().At("00:00").Do(run, arg)
+			fmt.Println(fmt.Sprintf("Adding %s to watchlist", arg))
+			gocron.Every(1).Day().At("23:55").Do(run, arg)
 		}
 		_, time := gocron.NextRun()
 		fmt.Println(fmt.Sprintf("Cron job will run next at %s", time))
