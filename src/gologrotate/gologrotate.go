@@ -118,6 +118,7 @@ func run(searchDir string) {
 func main() {
 	fmt.Println("Starting gologrotate")
 	now := flag.Bool("now", false, "Run now")
+	time := flag.String("time", "23:55", "Local time at which the cron job runs")
 	flag.Parse()
 	if *now {
 		fmt.Println("Running a one-time execution of gologrotate")
@@ -129,7 +130,7 @@ func main() {
 		fmt.Println("Running a cron job of gologrotate")
 		for _, arg := range flag.Args() {
 			fmt.Println(fmt.Sprintf("Adding %s to watchlist", arg))
-			gocron.Every(1).Day().At("23:55").Do(run, arg)
+			gocron.Every(1).Day().At(*time).Do(run, arg)
 		}
 		_, time := gocron.NextRun()
 		fmt.Println(fmt.Sprintf("Cron job will run next at %s", time))

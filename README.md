@@ -11,7 +11,9 @@ This go program finds all .log files under a directory recursively, and rotate t
 
 `gologrotate [-now] <searchDir>`
 
-`-now`: optional, runs a one-time log rotate. If this parameter is omitted, gologrotate runs at midnight.
+`-now`: optional, runs a one-time log rotate. If this parameter is omitted, gologrotate runs as a cron job.
+
+`-time`: optional, sets the time of day according to the local clock at which the cron job will run. Defaults to 23:55.
 
 `searchDir` : the directory which logrotate will search recursively for .log files.
 
