@@ -13,8 +13,6 @@ import (
 	"github.com/jasonlvhit/gocron"
 )
 
-var format = flag.String("format", "2006-02-01", "Time format")
-
 func findFiles(searchDir string, suffix string) []string {
 	fileList := []string{}
 	filepath.Walk(searchDir, func(path string, f os.FileInfo, err error) error {
@@ -92,10 +90,10 @@ func fileExists(name string) bool {
 	return (err == nil)
 }
 
-func run(searchDir string) {
+func run(searchDir string, format string) {
 	fmt.Println(fmt.Sprintf("Starting execution on %s", searchDir))
 	fileList := findFiles(searchDir, ".log")
-	now := time.Now().Format(*format)
+	now := time.Now().Format(format)
 	for _, file := range fileList {
 		outname := fmt.Sprintf("%s.%s.gz", file, now)
 		n := 0
@@ -119,18 +117,19 @@ func main() {
 	fmt.Println("Starting gologrotate")
 	now := flag.Bool("now", false, "Run now")
 	time := flag.String("time", "23:55", "Local time at which the cron job runs")
+	format := flag.String("format", "2006-02-16", "Time format")
 	flag.Parse()
 	if *now {
 		fmt.Println("Running a one-time execution of gologrotate")
 		for _, arg := range flag.Args() {
 			fmt.Println(fmt.Sprintf("Running on %s", arg))
-			run(arg)
+			run(arg, *format)
 		}
 	} else {
 		fmt.Println("Running a cron job of gologrotate")
 		for _, arg := range flag.Args() {
 			fmt.Println(fmt.Sprintf("Adding %s to watchlist", arg))
-			gocron.Every(1).Day().At(*time).Do(run, arg)
+			gocron.Every(1).Day().At(*time).Do(run, arg, *format)
 		}
 		_, time := gocron.NextRun()
 		fmt.Println(fmt.Sprintf("Cron job will run next at %s", time))

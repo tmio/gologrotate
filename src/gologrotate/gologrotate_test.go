@@ -40,6 +40,8 @@ func TestRun(t *testing.T) {
 
 	root_log_name := "tests/find_all/root.log"
 
+	format := "2016-02-16"
+
 	fi, err := os.OpenFile(root_log_name, os.O_APPEND|os.O_WRONLY, 0644)
 	if err != nil {
 		panic(err)
@@ -49,7 +51,7 @@ func TestRun(t *testing.T) {
 
 	t.Log(fmt.Sprintf("File contents: %q", ReadFile(root_log_name)))
 
-	run("tests/find_all")
+	run("tests/find_all", format)
 
 	fi.WriteString("NEW LINE\n")
 
@@ -65,7 +67,7 @@ func TestRun(t *testing.T) {
 	os.OpenFile(root_log_name, os.O_RDONLY|os.O_CREATE, 0644)
 
 	allGz := findFiles("tests/find_all", ".gz")
-	now := time.Now().Format(*format)
+	now := time.Now().Format(format)
 	datesuffix := fmt.Sprintf("%s", now)
 	root_log := false
 	sub_log := false
