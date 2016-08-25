@@ -9,13 +9,13 @@ This go program finds all .log files under a directory recursively, and rotate t
 
 ## Usage
 
-`gologrotate [-now] <searchDir>`
+`gologrotate [-now] [-time <time>] [-format <format>] <searchDir>`
 
 `-now`: optional, runs a one-time log rotate. If this parameter is omitted, gologrotate runs as a cron job.
 
-`-time`: optional, sets the time of day according to the local clock at which the cron job will run. Defaults to 23:55.
+`-time <time>`: optional, sets the time of day according to the local clock at which the cron job will run. Defaults to 23:55.
 
-`-format`: optional, sets the format of the timestamp used to suffix the gzipped log file. Defaults to 2006-01-02 (YYYY-MM-DD).
+`-format <format>`: optional, sets the format of the timestamp used to suffix the gzipped log file. Defaults to 2006-01-02 (YYYY-MM-DD).
 See [Go time formats](https://golang.org/src/time/format.go).
 
 `searchDir` : the directory which logrotate will search recursively for .log files.
