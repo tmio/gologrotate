@@ -117,7 +117,7 @@ func main() {
 	fmt.Println("Starting gologrotate")
 	now := flag.Bool("now", false, "Run now")
 	time := flag.String("time", "23:55", "Local time at which the cron job runs")
-	format := flag.String("format", "2006-02-16", "Time format")
+	format := flag.String("format", "2006-01-02", "Time format")
 	flag.Parse()
 	if *now {
 		fmt.Println("Running a one-time execution of gologrotate")
